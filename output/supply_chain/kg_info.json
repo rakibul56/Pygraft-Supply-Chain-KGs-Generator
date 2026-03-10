@@ -1,0 +1,20 @@
+{
+    "user_parameters": {
+        "schema": "supply_chain",
+        "num_entities": 5000,
+        "num_triples": 15000,
+        "relation_balance_ratio": 0.75,
+        "prop_untyped_entities": 0.0,
+        "avg_depth_specific_class": 3,
+        "multityping": false,
+        "avg_multityping": 1
+    },
+    "statistics": {
+        "num_entities": 2149,
+        "num_instantiated_relations": 11,
+        "num_triples": 2243,
+        "prop_untyped_entities": 0.0,
+        "avg_depth_specific_class": 2.258,
+        "avg_multityping": 1.0
+    }
+}

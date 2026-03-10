@@ -1,0 +1,98 @@
+organizationName:
+  type: faker
+  method: company
+
+batchCode:
+  type: code
+  prefix: HB
+  digits: 5
+  separator: "-"
+
+harvestDate:
+  type: date_range
+  start: 2024-09-01
+  end: 2025-03-31
+
+harvestWeightKg:
+  type: truncated_normal
+  mean: 4200
+  stddev: 950
+  min: 750
+  max: 9000
+  decimals: 1
+
+cropType:
+  type: choice
+  values: ["Olives", "Coffee", "Wheat", "Corn", "Soy"]
+
+shipmentId:
+  type: code
+  prefix: SHIP
+  digits: 5
+  separator: "-"
+
+shipmentDate:
+  type: relation_offset
+  relation: carriesBatch
+  reference_property: harvestDate
+  offset_min_days: 2
+  offset_max_days: 18
+  start: 2025-02-01T06:00:00
+  end: 2025-06-30T18:00:00
+
+shipmentStatus:
+  type: choice
+  values: ["Pending", "In-Transit", "Delivered", "Delayed"]
+  weights: [0.15, 0.45, 0.3, 0.1]
+
+productName:
+  type: choice
+  values:
+    - "Olive Oil"
+    - "Extra Virgin Olive Oil"
+    - "Refined Olive Oil"
+    - "Corn Oil"
+    - "Soy Oil"
+    - "Wheat Flour"
+    - "Coffee Beans"
+    - "Roasted Coffee"
+    - "Organic Olives"
+    - "Table Olives"
+
+productSKU:
+  type: code
+  prefix: SKU
+  digits: 6
+  separator: "-"
+
+productBatchCode:
+  type: code
+  prefix: PB
+  digits: 6
+  separator: "-"
+
+productionDate:
+  type: relation_offset
+  relation: batchDerivedFrom
+  reference_property: harvestDate
+  offset_min_days: 3
+  offset_max_days: 30
+  start: 2025-01-01T06:00:00
+  end: 2025-06-30T18:00:00
+
+facilityCode:
+  type: code
+  prefix: FAC
+  digits: 4
+  separator: "-"
+
+vehiclePlate:
+  type: code
+  prefix: TRK
+  digits: 4
+  separator: "-"
+
+qualityGrade:
+  type: choice
+  values: ["A", "B", "C", "Premium", "Standard"]
+  weights: [0.25, 0.35, 0.15, 0.15, 0.1]

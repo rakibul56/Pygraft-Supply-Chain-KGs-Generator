@@ -1,0 +1,81 @@
+{
+    "statistics": {
+        "num_dataproperties": 8,
+        "prop_functional": 0.88
+    },
+    "dataproperties": [
+        "organizationName",
+        "batchCode",
+        "harvestDate",
+        "harvestWeightKg",
+        "cropType",
+        "shipmentId",
+        "shipmentDate",
+        "shipmentStatus"
+    ],
+    "dp2dom": {
+        "organizationName": "Organization",
+        "batchCode": "HarvestBatch",
+        "harvestDate": "HarvestBatch",
+        "harvestWeightKg": "HarvestBatch",
+        "cropType": "HarvestBatch",
+        "shipmentId": "Shipment",
+        "shipmentDate": "Shipment",
+        "shipmentStatus": "Shipment"
+    },
+    "dp2datatype": {
+        "organizationName": "xsd:string",
+        "batchCode": "xsd:string",
+        "harvestDate": "xsd:dateTime",
+        "harvestWeightKg": "xsd:decimal",
+        "cropType": "xsd:string",
+        "shipmentId": "xsd:string",
+        "shipmentDate": "xsd:dateTime",
+        "shipmentStatus": "xsd:string"
+    },
+    "dp2patterns": {
+        "organizationName": [
+            "owl:Functional"
+        ],
+        "batchCode": [
+            "owl:Functional"
+        ],
+        "harvestDate": [
+            "owl:Functional"
+        ],
+        "harvestWeightKg": [],
+        "cropType": [
+            "owl:Functional"
+        ],
+        "shipmentId": [
+            "owl:Functional"
+        ],
+        "shipmentDate": [
+            "owl:Functional"
+        ],
+        "shipmentStatus": [
+            "owl:Functional"
+        ]
+    },
+    "pattern2dps": {
+        "owl:Functional": [
+            "batchCode",
+            "cropType",
+            "harvestDate",
+            "organizationName",
+            "shipmentDate",
+            "shipmentId",
+            "shipmentStatus"
+        ]
+    },
+    "functional_dataproperties": [
+        "batchCode",
+        "cropType",
+        "harvestDate",
+        "organizationName",
+        "shipmentDate",
+        "shipmentId",
+        "shipmentStatus"
+    ],
+    "dp2super": {}
+}

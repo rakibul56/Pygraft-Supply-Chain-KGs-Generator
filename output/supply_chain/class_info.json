@@ -1,0 +1,332 @@
+{
+    "num_classes": 11,
+    "classes": [
+        "Entity",
+        "Organization",
+        "Grower",
+        "Retailer",
+        "Facility",
+        "Farm",
+        "Mill",
+        "MaterialLot",
+        "HarvestBatch",
+        "Shipment",
+        "LogisticsProvider"
+    ],
+    "hierarchy_depth": 3,
+    "avg_class_depth": 2.45,
+    "class_inheritance_ratio": 2.5,
+    "direct_class2subclasses": {
+        "Entity": [
+            "Facility",
+            "MaterialLot",
+            "Organization",
+            "Shipment"
+        ],
+        "Organization": [
+            "Grower",
+            "LogisticsProvider",
+            "Retailer"
+        ],
+        "Facility": [
+            "Farm",
+            "Mill"
+        ],
+        "MaterialLot": [
+            "HarvestBatch"
+        ]
+    },
+    "direct_class2superclass": {
+        "Entity": "owl:Thing",
+        "Organization": "Entity",
+        "Grower": "Organization",
+        "Retailer": "Organization",
+        "Facility": "Entity",
+        "Farm": "Facility",
+        "Mill": "Facility",
+        "MaterialLot": "Entity",
+        "HarvestBatch": "MaterialLot",
+        "Shipment": "Entity",
+        "LogisticsProvider": "Organization"
+    },
+    "transitive_class2subclasses": {
+        "owl:Thing": [
+            "Entity",
+            "Organization",
+            "Grower",
+            "Retailer",
+            "Facility",
+            "Farm",
+            "Mill",
+            "MaterialLot",
+            "HarvestBatch",
+            "Shipment",
+            "LogisticsProvider"
+        ],
+        "Entity": [
+            "Organization",
+            "Grower",
+            "Retailer",
+            "Facility",
+            "Farm",
+            "Mill",
+            "MaterialLot",
+            "HarvestBatch",
+            "Shipment",
+            "LogisticsProvider"
+        ],
+        "Organization": [
+            "Grower",
+            "Retailer",
+            "LogisticsProvider"
+        ],
+        "Facility": [
+            "Farm",
+            "Mill"
+        ],
+        "MaterialLot": [
+            "HarvestBatch"
+        ]
+    },
+    "transitive_class2superclasses": {
+        "Entity": [
+            "owl:Thing"
+        ],
+        "Organization": [
+            "Entity",
+            "owl:Thing"
+        ],
+        "Grower": [
+            "Organization",
+            "Entity",
+            "owl:Thing"
+        ],
+        "Retailer": [
+            "Organization",
+            "Entity",
+            "owl:Thing"
+        ],
+        "Facility": [
+            "Entity",
+            "owl:Thing"
+        ],
+        "Farm": [
+            "Facility",
+            "Entity",
+            "owl:Thing"
+        ],
+        "Mill": [
+            "Facility",
+            "Entity",
+            "owl:Thing"
+        ],
+        "MaterialLot": [
+            "Entity",
+            "owl:Thing"
+        ],
+        "HarvestBatch": [
+            "MaterialLot",
+            "Entity",
+            "owl:Thing"
+        ],
+        "Shipment": [
+            "Entity",
+            "owl:Thing"
+        ],
+        "LogisticsProvider": [
+            "Organization",
+            "Entity",
+            "owl:Thing"
+        ]
+    },
+    "avg_class_disjointness": 0.45,
+    "class2disjoints": {
+        "Organization": [
+            "Facility",
+            "MaterialLot",
+            "Shipment"
+        ],
+        "Grower": [
+            "LogisticsProvider",
+            "Retailer"
+        ],
+        "Facility": [
+            "MaterialLot",
+            "Organization",
+            "Shipment"
+        ],
+        "Farm": [
+            "Mill"
+        ],
+        "MaterialLot": [
+            "Facility",
+            "Organization",
+            "Shipment"
+        ],
+        "HarvestBatch": [
+            "Shipment"
+        ],
+        "Shipment": [
+            "Facility",
+            "HarvestBatch",
+            "MaterialLot",
+            "Organization"
+        ],
+        "LogisticsProvider": [
+            "Grower",
+            "Retailer"
+        ],
+        "Retailer": [
+            "Grower",
+            "LogisticsProvider"
+        ],
+        "Mill": [
+            "Farm"
+        ]
+    },
+    "class2disjoints_symmetric": [
+        "Facility-MaterialLot",
+        "Facility-Organization",
+        "Facility-Shipment",
+        "Farm-Mill",
+        "Grower-LogisticsProvider",
+        "Grower-Retailer",
+        "HarvestBatch-Shipment",
+        "LogisticsProvider-Retailer",
+        "MaterialLot-Organization",
+        "MaterialLot-Shipment",
+        "Organization-Shipment"
+    ],
+    "class2disjoints_extended": {
+        "Facility": [
+            "Grower",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "MaterialLot",
+            "Organization",
+            "Retailer",
+            "Shipment"
+        ],
+        "Shipment": [
+            "Facility",
+            "Farm",
+            "Grower",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "MaterialLot",
+            "Mill",
+            "Organization",
+            "Retailer"
+        ],
+        "Farm": [
+            "Grower",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "MaterialLot",
+            "Mill",
+            "Organization",
+            "Retailer",
+            "Shipment"
+        ],
+        "Mill": [
+            "Farm",
+            "Grower",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "MaterialLot",
+            "Organization",
+            "Retailer",
+            "Shipment"
+        ],
+        "Grower": [
+            "Facility",
+            "Farm",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "MaterialLot",
+            "Mill",
+            "Retailer",
+            "Shipment"
+        ],
+        "LogisticsProvider": [
+            "Facility",
+            "Farm",
+            "Grower",
+            "HarvestBatch",
+            "MaterialLot",
+            "Mill",
+            "Retailer",
+            "Shipment"
+        ],
+        "Retailer": [
+            "Facility",
+            "Farm",
+            "Grower",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "MaterialLot",
+            "Mill",
+            "Shipment"
+        ],
+        "Organization": [
+            "Facility",
+            "Farm",
+            "HarvestBatch",
+            "MaterialLot",
+            "Mill",
+            "Shipment"
+        ],
+        "HarvestBatch": [
+            "Facility",
+            "Farm",
+            "Grower",
+            "LogisticsProvider",
+            "Mill",
+            "Organization",
+            "Retailer",
+            "Shipment"
+        ],
+        "MaterialLot": [
+            "Facility",
+            "Farm",
+            "Grower",
+            "LogisticsProvider",
+            "Mill",
+            "Organization",
+            "Retailer",
+            "Shipment"
+        ]
+    },
+    "layer2classes": {
+        "1": [
+            "Entity"
+        ],
+        "2": [
+            "Facility",
+            "MaterialLot",
+            "Organization",
+            "Shipment"
+        ],
+        "3": [
+            "Farm",
+            "Grower",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "Mill",
+            "Retailer"
+        ]
+    },
+    "class2layer": {
+        "Entity": 1,
+        "Facility": 2,
+        "MaterialLot": 2,
+        "Organization": 2,
+        "Shipment": 2,
+        "Farm": 3,
+        "Grower": 3,
+        "HarvestBatch": 3,
+        "LogisticsProvider": 3,
+        "Mill": 3,
+        "Retailer": 3
+    }
+}

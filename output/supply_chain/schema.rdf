@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="http://pygraf.t/Entity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/harvestedFrom">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/HarvestBatch"/>
+    <rdfs:range rdf:resource="http://pygraf.t/Farm"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/shipmentDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Shipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/harvestDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/HarvestBatch"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/organizationName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Organization"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/managesFarm">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Grower"/>
+    <rdfs:range rdf:resource="http://pygraf.t/Farm"/>
+    <rdfs:subPropertyOf rdf:resource="http://pygraf.t/ownsFacility"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/carriesBatch">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Shipment"/>
+    <rdfs:range rdf:resource="http://pygraf.t/HarvestBatch"/>
+    <owl:inverseOf rdf:resource="http://pygraf.t/includedInShipment"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/Mill">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/Facility"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Farm"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/includedInShipment">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/HarvestBatch"/>
+    <rdfs:range rdf:resource="http://pygraf.t/Shipment"/>
+    <owl:inverseOf rdf:resource="http://pygraf.t/carriesBatch"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/Farm">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/Facility"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Mill"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/Retailer">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/Organization"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Grower"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/LogisticsProvider"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/Organization">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/Entity"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Facility"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/MaterialLot"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Shipment"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/Grower">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/Organization"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/LogisticsProvider"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Retailer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/harvestsBatch">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Grower"/>
+    <rdfs:range rdf:resource="http://pygraf.t/HarvestBatch"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/shipmentStatus">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Shipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/operatesMill">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Organization"/>
+    <rdfs:range rdf:resource="http://pygraf.t/Mill"/>
+    <rdfs:subPropertyOf rdf:resource="http://pygraf.t/ownsFacility"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/shipmentId">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Shipment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/ownsFacility">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Organization"/>
+    <rdfs:range rdf:resource="http://pygraf.t/Facility"/>
+    <owl:inverseOf rdf:resource="http://pygraf.t/ownedBy"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/Shipment">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/Entity"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Facility"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/HarvestBatch"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/MaterialLot"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Organization"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/processedAt">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/HarvestBatch"/>
+    <rdfs:range rdf:resource="http://pygraf.t/Mill"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/LogisticsProvider">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/Organization"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Grower"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Retailer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/shippedTo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Shipment"/>
+    <rdfs:range rdf:resource="http://pygraf.t/Facility"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/shippedFrom">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Shipment"/>
+    <rdfs:range rdf:resource="http://pygraf.t/Facility"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <dcterms:license rdf:resource="https://creativecommons.org/publicdomain/zero/1.0/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/cropType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/HarvestBatch"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/shippedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Shipment"/>
+    <rdfs:range rdf:resource="http://pygraf.t/LogisticsProvider"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/batchCode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/HarvestBatch"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/ownedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/Facility"/>
+    <rdfs:range rdf:resource="http://pygraf.t/Organization"/>
+    <owl:inverseOf rdf:resource="http://pygraf.t/ownsFacility"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/Facility">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/Entity"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/MaterialLot"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Organization"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Shipment"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/harvestWeightKg">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://pygraf.t/HarvestBatch"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/MaterialLot">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/Entity"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Facility"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Organization"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Shipment"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://pygraf.t/HarvestBatch">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://pygraf.t/MaterialLot"/>
+    <owl:disjointWith rdf:resource="http://pygraf.t/Shipment"/>
+  </rdf:Description>
+</rdf:RDF>

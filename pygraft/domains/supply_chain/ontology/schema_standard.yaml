@@ -1,0 +1,189 @@
+schema:
+  name: supply_chain
+  format: xml
+  
+classes:
+  Entity:
+    parents: []
+
+  Organization:
+    parents:
+      - Entity
+    disjoint_with:
+      - Facility
+      - MaterialLot
+      - Shipment
+
+  Grower:
+    parents:
+      - Organization
+    disjoint_with:
+      - Retailer
+
+  Retailer:
+    parents:
+      - Organization
+
+  Facility:
+    parents:
+      - Entity
+    disjoint_with:
+      - Shipment
+      - Organization
+
+  Farm:
+    parents:
+      - Facility
+    disjoint_with:
+      - Mill
+
+  Mill:
+    parents:
+      - Facility
+
+  MaterialLot:
+    parents:
+      - Entity
+    disjoint_with:
+      - Shipment
+      - Facility
+      - Organization
+
+  HarvestBatch:
+    parents:
+      - MaterialLot
+    disjoint_with:
+      - Shipment
+
+  Shipment:
+    parents:
+      - Entity
+    disjoint_with:
+      - Facility
+      - MaterialLot
+      - Organization
+
+  LogisticsProvider:
+    parents:
+      - Organization
+    disjoint_with:
+      - Grower
+      - Retailer
+
+relations:
+  ownsFacility:
+    domain: Organization
+    range: Facility
+    inverse_of: ownedBy
+
+  ownedBy:
+    domain: Facility
+    range: Organization
+    characteristics:
+      - owl:Functional
+
+  managesFarm:
+    domain: Grower
+    range: Farm
+    subproperty_of: ownsFacility
+    characteristics:
+      - owl:InverseFunctional
+
+  operatesMill:
+    domain: Organization
+    range: Mill
+    subproperty_of: ownsFacility
+
+  harvestsBatch:
+    domain: Grower
+    range: HarvestBatch
+    characteristics:
+      - owl:InverseFunctional
+
+  harvestedFrom:
+    domain: HarvestBatch
+    range: Farm
+    characteristics:
+      - owl:Functional
+
+  processedAt:
+    domain: HarvestBatch
+    range: Mill
+    characteristics:
+      - owl:Functional
+
+  includedInShipment:
+    domain: HarvestBatch
+    range: Shipment
+    inverse_of: carriesBatch
+
+  carriesBatch:
+    domain: Shipment
+    range: HarvestBatch
+    characteristics:
+      - owl:InverseFunctional
+
+  shippedBy:
+    domain: Shipment
+    range: LogisticsProvider
+    characteristics:
+      - owl:Functional
+
+  shippedFrom:
+    domain: Shipment
+    range: Facility
+    characteristics:
+      - owl:Functional
+
+  shippedTo:
+    domain: Shipment
+    range: Facility
+    characteristics:
+      - owl:Functional
+
+dataproperties:
+  organizationName:
+    domain: Organization
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  batchCode:
+    domain: HarvestBatch
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  harvestDate:
+    domain: HarvestBatch
+    datatype: xsd:dateTime
+    characteristics:
+      - owl:Functional
+
+  harvestWeightKg:
+    domain: HarvestBatch
+    datatype: xsd:decimal
+
+  cropType:
+    domain: HarvestBatch
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  shipmentId:
+    domain: Shipment
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  shipmentDate:
+    domain: Shipment
+    datatype: xsd:dateTime
+    characteristics:
+      - owl:Functional
+
+  shipmentStatus:
+    domain: Shipment
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional

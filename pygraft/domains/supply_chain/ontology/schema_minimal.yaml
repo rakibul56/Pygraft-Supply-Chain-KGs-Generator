@@ -1,0 +1,77 @@
+schema:
+  name: supply_chain_minimal
+  format: xml
+
+classes:
+  Entity:
+    parents: []
+
+  Organization:
+    parents:
+      - Entity
+    disjoint_with:
+      - Facility
+      - Shipment
+
+  Facility:
+    parents:
+      - Entity
+    disjoint_with:
+      - Shipment
+      - Organization
+
+  Shipment:
+    parents:
+      - Entity
+    disjoint_with:
+      - Facility
+      - Organization
+
+relations:
+  ownsFacility:
+    domain: Organization
+    range: Facility
+    inverse_of: ownedBy
+
+  ownedBy:
+    domain: Facility
+    range: Organization
+    characteristics:
+      - owl:Functional
+
+  shippedBy:
+    domain: Shipment
+    range: Organization
+    characteristics:
+      - owl:Functional
+
+  shippedFrom:
+    domain: Shipment
+    range: Facility
+    characteristics:
+      - owl:Functional
+
+  shippedTo:
+    domain: Shipment
+    range: Facility
+    characteristics:
+      - owl:Functional
+
+dataproperties:
+  organizationName:
+    domain: Organization
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  shipmentId:
+    domain: Shipment
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  shipmentDate:
+    domain: Shipment
+    datatype: xsd:dateTime
+    characteristics:
+      - owl:Functional

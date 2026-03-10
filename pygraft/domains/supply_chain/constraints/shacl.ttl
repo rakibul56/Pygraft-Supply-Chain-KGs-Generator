@@ -1,0 +1,115 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix sc: <http://pygraf.t/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Harvest batches must be linked to a single farm and dated.
+[] a sh:NodeShape ;
+   sh:targetClass sc:HarvestBatch ;
+   sh:property [
+       sh:path sc:harvestedFrom ;
+       sh:class sc:Farm ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Harvest batch must be linked to exactly one farm."
+   ] ;
+   sh:property [
+       sh:path sc:harvestDate ;
+       sh:datatype xsd:dateTime ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Harvest batch must carry a harvestDate literal."
+   ] .
+
+# Milling runs require at least one input batch and a milling facility.
+[] a sh:NodeShape ;
+   sh:targetClass sc:MillingRun ;
+   sh:property [
+       sh:path sc:usesHarvestBatch ;
+       sh:class sc:HarvestBatch ;
+       sh:minCount 1 ;
+       sh:message "Milling run must reference at least one harvest batch."
+   ] ;
+   sh:property [
+       sh:path sc:milledAt ;
+       sh:class sc:MillingFacility ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Milling run must specify the milling facility."
+   ] .
+
+# Packaging lots must originate from blends and expose key literals.
+[] a sh:NodeShape ;
+   sh:targetClass sc:PackagingLot ;
+   sh:property [
+       sh:path sc:derivedFromBlend ;
+       sh:class sc:BlendLot ;
+       sh:minCount 1 ;
+       sh:message "Packaging lot must derive from at least one blend lot."
+   ] ;
+   sh:property [
+       sh:path sc:batchVolumeLiters ;
+       sh:datatype xsd:decimal ;
+       sh:minCount 1 ;
+       sh:message "Packaging lot must provide batch volume in liters."
+   ] ;
+   sh:property [
+       sh:path sc:bestBeforeDate ;
+       sh:datatype xsd:dateTime ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Packaging lot must supply a best-before timestamp."
+   ] .
+
+# Certifications require issued and expiry timestamps.
+[] a sh:NodeShape ;
+   sh:targetClass sc:Certification ;
+   sh:property [
+       sh:path sc:certificationIssuedOn ;
+       sh:datatype xsd:dateTime ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Certification must include an issued-on timestamp."
+   ] ;
+   sh:property [
+       sh:path sc:certificationExpiresOn ;
+       sh:datatype xsd:dateTime ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Certification must include an expiry timestamp."
+   ] .
+
+# Retail SKU GTIN-14 validation.
+[] a sh:NodeShape ;
+   sh:targetClass sc:RetailSKU ;
+   sh:property [
+       sh:path sc:gtin14 ;
+       sh:pattern "^[0-9]{14}$" ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Retail SKU must provide a 14 digit GTIN."
+   ] .
+
+# Shipments must define origin, destination, and a shipment date.
+[] a sh:NodeShape ;
+   sh:targetClass sc:Shipment ;
+   sh:property [
+       sh:path sc:shippedFrom ;
+       sh:class sc:Facility ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Shipment must specify a shippedFrom facility."
+   ] ;
+   sh:property [
+       sh:path sc:shippedTo ;
+       sh:class sc:Facility ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Shipment must specify a shippedTo facility."
+   ] ;
+   sh:property [
+       sh:path sc:shipmentDate ;
+       sh:datatype xsd:dateTime ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:message "Shipment must specify a shipmentDate."
+   ] .

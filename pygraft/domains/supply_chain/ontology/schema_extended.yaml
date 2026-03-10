@@ -1,0 +1,440 @@
+schema:
+  name: supply_chain_extended
+  format: xml
+
+classes:
+  Entity:
+    parents: []
+
+  Organization:
+    parents:
+      - Entity
+    disjoint_with:
+      - Facility
+      - MaterialLot
+      - Shipment
+      - Product
+      - TransportVehicle
+
+  Supplier:
+    parents:
+      - Organization
+
+  Manufacturer:
+    parents:
+      - Organization
+
+  Distributor:
+    parents:
+      - Organization
+
+  Grower:
+    parents:
+      - Organization
+    disjoint_with:
+      - Retailer
+
+  Retailer:
+    parents:
+      - Organization
+    disjoint_with:
+      - Grower
+
+  LogisticsProvider:
+    parents:
+      - Organization
+    disjoint_with:
+      - Grower
+      - Retailer
+
+  CertificationBody:
+    parents:
+      - Organization
+
+  Regulator:
+    parents:
+      - Organization
+
+  Facility:
+    parents:
+      - Entity
+    disjoint_with:
+      - MaterialLot
+      - Shipment
+
+  Farm:
+    parents:
+      - Facility
+    disjoint_with:
+      - Mill
+
+  Mill:
+    parents:
+      - Facility
+    disjoint_with:
+      - Farm
+
+  Warehouse:
+    parents:
+      - Facility
+
+  DistributionCenter:
+    parents:
+      - Facility
+
+  Port:
+    parents:
+      - Facility
+
+  ProcessingPlant:
+    parents:
+      - Facility
+
+  QualityLab:
+    parents:
+      - Facility
+
+  RetailStore:
+    parents:
+      - Facility
+
+  MaterialLot:
+    parents:
+      - Entity
+    disjoint_with:
+      - Facility
+      - Shipment
+      - Organization
+      - Product
+      - TransportVehicle
+
+  HarvestBatch:
+    parents:
+      - MaterialLot
+    disjoint_with:
+      - Shipment
+
+  ProductBatch:
+    parents:
+      - MaterialLot
+    disjoint_with:
+      - Shipment
+
+  Shipment:
+    parents:
+      - Entity
+    disjoint_with:
+      - Facility
+      - MaterialLot
+      - Organization
+      - Product
+      - TransportVehicle
+
+  Product:
+    parents:
+      - Entity
+    disjoint_with:
+      - Facility
+      - MaterialLot
+      - Shipment
+      - TransportVehicle
+      - Organization
+
+  TransportVehicle:
+    parents:
+      - Entity
+    disjoint_with:
+      - Facility
+      - MaterialLot
+      - Shipment
+      - Product
+      - Organization
+
+relations:
+  ownsFacility:
+    domain: Organization
+    range: Facility
+    inverse_of: ownedBy
+
+  ownedBy:
+    domain: Facility
+    range: Organization
+    characteristics:
+      - owl:Functional
+
+  managesFarm:
+    domain: Grower
+    range: Farm
+    subproperty_of: ownsFacility
+    characteristics:
+      - owl:InverseFunctional
+
+  operatesMill:
+    domain: Organization
+    range: Mill
+    subproperty_of: ownsFacility
+
+  operatesWarehouse:
+    domain: Organization
+    range: Warehouse
+    subproperty_of: ownsFacility
+
+  operatesDistributionCenter:
+    domain: Organization
+    range: DistributionCenter
+    subproperty_of: ownsFacility
+
+  operatesPort:
+    domain: Organization
+    range: Port
+    subproperty_of: ownsFacility
+
+  operatesPlant:
+    domain: Organization
+    range: ProcessingPlant
+    subproperty_of: ownsFacility
+
+  ownsStore:
+    domain: Retailer
+    range: RetailStore
+    subproperty_of: ownsFacility
+
+  ownsLab:
+    domain: CertificationBody
+    range: QualityLab
+    subproperty_of: ownsFacility
+
+  harvestsBatch:
+    domain: Grower
+    range: HarvestBatch
+    characteristics:
+      - owl:InverseFunctional
+
+  harvestedFrom:
+    domain: HarvestBatch
+    range: Farm
+    characteristics:
+      - owl:Functional
+
+  processedAt:
+    domain: HarvestBatch
+    range: Mill
+    characteristics:
+      - owl:Functional
+
+  producesBatch:
+    domain: Manufacturer
+    range: ProductBatch
+    characteristics:
+      - owl:InverseFunctional
+
+  producesProduct:
+    domain: Manufacturer
+    range: Product
+
+  packagesBatch:
+    domain: ProcessingPlant
+    range: ProductBatch
+
+  batchDerivedFrom:
+    domain: ProductBatch
+    range: HarvestBatch
+
+  batchOfProduct:
+    domain: ProductBatch
+    range: Product
+    characteristics:
+      - owl:Functional
+
+  suppliesTo:
+    domain: Supplier
+    range: Manufacturer
+
+  suppliesToDistributor:
+    domain: Supplier
+    range: Distributor
+
+  suppliesToRetailer:
+    domain: Supplier
+    range: Retailer
+
+  distributesTo:
+    domain: Distributor
+    range: Retailer
+
+  distributesProduct:
+    domain: Distributor
+    range: Product
+
+  sellsProduct:
+    domain: Retailer
+    range: Product
+
+  soldAt:
+    domain: Product
+    range: RetailStore
+
+  storesBatch:
+    domain: Warehouse
+    range: MaterialLot
+
+  storesProduct:
+    domain: Warehouse
+    range: Product
+
+  transfersToDC:
+    domain: Warehouse
+    range: DistributionCenter
+
+  includedInShipment:
+    domain: MaterialLot
+    range: Shipment
+    inverse_of: carriesBatch
+
+  carriesBatch:
+    domain: Shipment
+    range: MaterialLot
+    characteristics:
+      - owl:InverseFunctional
+
+  shippedBy:
+    domain: Shipment
+    range: LogisticsProvider
+    characteristics:
+      - owl:Functional
+
+  handledBy:
+    domain: Shipment
+    range: LogisticsProvider
+    subproperty_of: shippedBy
+
+  shippedFrom:
+    domain: Shipment
+    range: Facility
+    characteristics:
+      - owl:Functional
+
+  shippedTo:
+    domain: Shipment
+    range: Facility
+    characteristics:
+      - owl:Functional
+
+  shippedVia:
+    domain: Shipment
+    range: TransportVehicle
+    characteristics:
+      - owl:Functional
+
+  vehicleOwnedBy:
+    domain: TransportVehicle
+    range: LogisticsProvider
+    characteristics:
+      - owl:Functional
+
+  inspectedAt:
+    domain: Shipment
+    range: QualityLab
+
+  certifiedBy:
+    domain: ProductBatch
+    range: CertificationBody
+    characteristics:
+      - owl:Functional
+
+  regulatedBy:
+    domain: Organization
+    range: Regulator
+
+  contractedWith:
+    domain: Organization
+    range: Organization
+
+dataproperties:
+  organizationName:
+    domain: Organization
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  batchCode:
+    domain: HarvestBatch
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  harvestDate:
+    domain: HarvestBatch
+    datatype: xsd:dateTime
+    characteristics:
+      - owl:Functional
+
+  harvestWeightKg:
+    domain: HarvestBatch
+    datatype: xsd:decimal
+
+  cropType:
+    domain: HarvestBatch
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  shipmentId:
+    domain: Shipment
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  shipmentDate:
+    domain: Shipment
+    datatype: xsd:dateTime
+    characteristics:
+      - owl:Functional
+
+  shipmentStatus:
+    domain: Shipment
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  productName:
+    domain: Product
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  productSKU:
+    domain: Product
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  productBatchCode:
+    domain: ProductBatch
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  productionDate:
+    domain: ProductBatch
+    datatype: xsd:dateTime
+    characteristics:
+      - owl:Functional
+
+  vehiclePlate:
+    domain: TransportVehicle
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  facilityCode:
+    domain: Facility
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional
+
+  qualityGrade:
+    domain: ProductBatch
+    datatype: xsd:string
+    characteristics:
+      - owl:Functional

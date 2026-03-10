@@ -1,0 +1,10 @@
+locale: "en"
+product_name_patterns:
+  - "{adjective} {material} {noun}"
+materials: ["Steel", "Aluminum", "Polymer", "Copper", "Glass", "Ceramic"]
+adjectives:
+  ["Premium", "Industrial", "Lightweight", "High-Strength", "Recycled"]
+nouns: ["Bolt", "Frame", "Panel", "Hose", "Chip", "Valve"]
+company_suffixes:
+  ["Metals", "Plastics", "Chemicals", "Components", "Alloys", "Composites"]
+company_prefixes: ["Global", "Prime", "Atlas", "Vertex", "Nova", "Apex"]

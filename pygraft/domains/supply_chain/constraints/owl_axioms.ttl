@@ -1,0 +1,12 @@
+@prefix sc: <https://example.org/sc#> .
+@prefix schema: <http://schema.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+sc:Manufacturer rdfs:subClassOf schema:Organization .
+sc:Supplier     rdfs:subClassOf schema:Organization .
+sc:Distributor  rdfs:subClassOf schema:Organization .
+sc:Retailer     rdfs:subClassOf schema:Organization .
+
+# Disjoint roles - COMMENTED OUT to allow flexibility in supply chain roles
+# sc:Supplier owl:disjointWith sc:Retailer, sc:Manufacturer, sc:Distributor .

@@ -1,0 +1,77 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix sc: <http://pygraf.t/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Temporal logic: Milling runs must start after the harvest date of every input batch.
+sc:MillingRunTemporalShape
+    a sh:NodeShape ;
+    sh:targetClass sc:MillingRun ;
+    sh:property [
+        sh:path sc:millingStartTime ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+        sh:message "Milling run must declare a millingStartTime timestamp."
+    ] ;
+    sh:property [
+        sh:path sc:usesHarvestBatch ;
+        sh:class sc:HarvestBatch ;
+        sh:minCount 1 ;
+        sh:message "Milling run must reference at least one harvest batch."
+    ] ;
+    sh:sparql [
+        sh:message "Milling run start time must be later than the harvestDate of every referenced harvest batch." ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this sc:millingStartTime ?start .
+                ?this sc:usesHarvestBatch ?batch .
+                ?batch sc:harvestDate ?harvestDate .
+                FILTER (?start <= ?harvestDate)
+            }
+        """ ;
+    ] .
+
+# Value constraint: Acidity for any quality assessment must be bounded.
+sc:QualityAssessmentAcidityShape
+    a sh:NodeShape ;
+    sh:targetClass sc:QualityAssessment ;
+    sh:property [
+        sh:path sc:acidityPercentage ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 1 ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 10 ;
+        sh:message "QualityAssessment acidityPercentage must be between 0 and 10; extra-virgin targets remain below 0.8."
+    ] .
+
+# Cardinality: Each harvest batch is linked from exactly one grower.
+sc:HarvestBatchProducerShape
+    a sh:NodeShape ;
+    sh:targetClass sc:HarvestBatch ;
+    sh:property [
+        sh:path [ sh:inversePath sc:harvestsBatch ] ;
+        sh:class sc:Grower ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "HarvestBatch must be linked from exactly one Grower via harvestsBatch."
+    ] .
+
+# Provenance: Blend lots must source from at least two storage lots.
+sc:BlendLotProvenanceShape
+    a sh:NodeShape ;
+    sh:targetClass sc:BlendLot ;
+    sh:property [
+        sh:path sc:receivesFromStorageLot ;
+        sh:class sc:StorageLot ;
+        sh:minCount 2 ;
+        sh:message "BlendLot must reference at least two storage lots."
+    ] ;
+    sh:sparql [
+        sh:message "BlendLot must receive oil from at least two different StorageLots." ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this sc:receivesFromStorageLot ?lot .
+            }
+            GROUP BY ?this
+            HAVING (COUNT(DISTINCT ?lot) < 2)
+        """ ;
+    ] .

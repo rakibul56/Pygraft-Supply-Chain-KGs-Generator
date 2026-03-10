@@ -1,0 +1,128 @@
+{
+    "statistics": {
+        "num_relations": 12,
+        "prop_reflexive": 0.0,
+        "prop_irreflexive": 0.0,
+        "prop_functional": 0.5,
+        "prop_inversefunctional": 0.25,
+        "prop_symmetric": 0.0,
+        "prop_asymmetric": 0.0,
+        "prop_transitive": 0.0,
+        "prop_inverseof": 0.33,
+        "prop_subpropertyof": 0.33,
+        "prop_profiled_relations": 1.0,
+        "relation_specificity": 1.0
+    },
+    "relations": [
+        "ownsFacility",
+        "ownedBy",
+        "managesFarm",
+        "operatesMill",
+        "harvestsBatch",
+        "harvestedFrom",
+        "processedAt",
+        "includedInShipment",
+        "carriesBatch",
+        "shippedBy",
+        "shippedFrom",
+        "shippedTo"
+    ],
+    "rel2patterns": {
+        "ownsFacility": [],
+        "ownedBy": [
+            "owl:Functional"
+        ],
+        "managesFarm": [
+            "owl:InverseFunctional"
+        ],
+        "operatesMill": [],
+        "harvestsBatch": [
+            "owl:InverseFunctional"
+        ],
+        "harvestedFrom": [
+            "owl:Functional"
+        ],
+        "processedAt": [
+            "owl:Functional"
+        ],
+        "includedInShipment": [],
+        "carriesBatch": [
+            "owl:InverseFunctional"
+        ],
+        "shippedBy": [
+            "owl:Functional"
+        ],
+        "shippedFrom": [
+            "owl:Functional"
+        ],
+        "shippedTo": [
+            "owl:Functional"
+        ]
+    },
+    "reflexive_relations": [],
+    "irreflexive_relations": [],
+    "symmetric_relations": [],
+    "asymmetric_relations": [],
+    "functional_relations": [
+        "harvestedFrom",
+        "ownedBy",
+        "processedAt",
+        "shippedBy",
+        "shippedFrom",
+        "shippedTo"
+    ],
+    "inversefunctional_relations": [
+        "carriesBatch",
+        "harvestsBatch",
+        "managesFarm"
+    ],
+    "transitive_relations": [],
+    "inverseof_relations": [
+        "carriesBatch",
+        "includedInShipment",
+        "ownedBy",
+        "ownsFacility"
+    ],
+    "subrelations": [
+        "managesFarm",
+        "operatesMill"
+    ],
+    "rel2inverse": {
+        "ownsFacility": "ownedBy",
+        "includedInShipment": "carriesBatch",
+        "ownedBy": "ownsFacility",
+        "carriesBatch": "includedInShipment"
+    },
+    "rel2dom": {
+        "ownsFacility": "Organization",
+        "ownedBy": "Facility",
+        "managesFarm": "Grower",
+        "operatesMill": "Organization",
+        "harvestsBatch": "Grower",
+        "harvestedFrom": "HarvestBatch",
+        "processedAt": "HarvestBatch",
+        "includedInShipment": "HarvestBatch",
+        "carriesBatch": "Shipment",
+        "shippedBy": "Shipment",
+        "shippedFrom": "Shipment",
+        "shippedTo": "Shipment"
+    },
+    "rel2range": {
+        "ownsFacility": "Facility",
+        "ownedBy": "Organization",
+        "managesFarm": "Farm",
+        "operatesMill": "Mill",
+        "harvestsBatch": "HarvestBatch",
+        "harvestedFrom": "Farm",
+        "processedAt": "Mill",
+        "includedInShipment": "Shipment",
+        "carriesBatch": "HarvestBatch",
+        "shippedBy": "LogisticsProvider",
+        "shippedFrom": "Facility",
+        "shippedTo": "Facility"
+    },
+    "rel2superrel": {
+        "managesFarm": "ownsFacility",
+        "operatesMill": "ownsFacility"
+    }
+}

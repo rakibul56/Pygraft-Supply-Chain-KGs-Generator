@@ -1,0 +1,117 @@
+
+format: xml
+
+
+num_entities: 5000
+num_triples: 15000
+oversample: true
+fast_gen: true
+multityping: false
+avg_multityping: 1
+kg_check_reasoner: true
+prop_untyped_entities: 0.0
+relation_balance_ratio: 0.75
+avg_depth_specific_class: 3.5
+reasoner_java_memory_mb: 2000
+
+
+
+
+
+
+relation_distribution:
+  alpha: 1.2
+  hotspots:
+  - multiplier: 3.0
+    relation: carriesBatch
+  - multiplier: 1.5
+    relation: shippedFrom
+  - multiplier: 1.5
+    relation: shippedTo
+  - multiplier: 2.2
+    relation: shippedBy
+  - multiplier: 1.8
+    relation: processedAt
+  - multiplier: 1.6
+    relation: harvestedFrom
+  type: pareto
+schema_name: supply_chain
+
+popularity_skew:
+  class_overrides:
+    DistributionCenter:
+      alpha: 1.1
+      distribution: pareto
+      head_boost: 1.4
+      head_share: 0.2
+    Distributor:
+      alpha: 1.1
+      distribution: pareto
+      head_boost: 1.7
+      head_share: 0.2
+    HarvestBatch:
+      alpha: 1.3
+      distribution: pareto
+      head_boost: 1.6
+      head_share: 0.25
+    LogisticsProvider:
+      alpha: 1.1
+      distribution: pareto
+      head_boost: 2.5
+      head_share: 0.2
+    Manufacturer:
+      alpha: 1.15
+      distribution: pareto
+      head_boost: 1.9
+      head_share: 0.2
+    Mill:
+      alpha: 1.2
+      distribution: pareto
+      head_boost: 1.8
+      head_share: 0.2
+    Product:
+      alpha: 1.2
+      distribution: pareto
+      head_boost: 1.4
+      head_share: 0.2
+    ProductBatch:
+      alpha: 1.25
+      distribution: pareto
+      head_boost: 1.5
+      head_share: 0.25
+    Retailer:
+      alpha: 1.05
+      distribution: pareto
+      head_boost: 1.6
+      head_share: 0.25
+    Shipment:
+      distribution: uniform
+    Supplier:
+      alpha: 1.1
+      distribution: pareto
+      head_boost: 1.8
+      head_share: 0.2
+    Warehouse:
+      alpha: 1.1
+      distribution: pareto
+      head_boost: 1.4
+      head_share: 0.2
+  default:
+    distribution: uniform
+
+dataproperty_priority:
+  batchCode: 20
+  cropType: 12
+  facilityCode: 50
+  harvestDate: 10
+  harvestWeightKg: 11
+  organizationName: 40
+  productBatchCode: 21
+  productName: 35
+  productSKU: 36
+  productionDate: 22
+  qualityGrade: 23
+  shipmentDate: 30
+  shipmentId: 31
+  shipmentStatus: 32
+  vehiclePlate: 51
