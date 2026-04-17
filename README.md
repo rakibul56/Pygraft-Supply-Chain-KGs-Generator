@@ -1,194 +1,138 @@
-<div align="center">
-
 # Artificial Generation of Graph Data Using Real-World Configurations
 
-### Synthetic Supply Chain Knowledge Graph Generator
+Master's thesis project, TU Chemnitz.
 
-*A configuration-driven, ontology-aware extension of [PyGraft](https://github.com/nicolas-hbt/pygraft) for generating realistic, OWL-consistent supply-chain knowledge graphs.*
+This is an extension of [PyGraft](https://github.com/nicolas-hbt/pygraft) that generates synthetic knowledge graphs for the supply-chain domain. The original PyGraft produces graphs with generic labels like `C1`, `E1`, `R1`. My version takes a real ontology (farms, mills, harvest batches, shipments, logistics providers, retailers, etc.) written in YAML and produces an OWL-consistent RDF graph that also respects supply-chain business rules.
 
-Master's thesis — TU Chemnitz.
+The generator is configuration-driven: you describe the ontology in one YAML file, the generation parameters in another, and how literal values should look in a third. Given the same random seed, the same input produces the same graph every time.
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![RDF / OWL](https://img.shields.io/badge/Knowledge%20Graph-RDF%20%7C%20OWL%202-0A7E8C)](https://www.w3.org/TR/owl2-overview/)
-[![Reasoner](https://img.shields.io/badge/Reasoner-HermiT-4B8BBE)](http://www.hermit-reasoner.com/)
-[![Domain](https://img.shields.io/badge/Domain-Supply%20Chain-2E8B57)](#schema-variants)
-[![License](https://img.shields.io/badge/License-MIT-lightgrey)](#license)
+## What it does
 
-[Features](#features) · [Pipeline](#end-to-end-pipeline) · [Quickstart](#quickstart) · [Configuration](#configuration) · [Examples](#example-output)
+Starting from three YAML files, the pipeline:
 
-</div>
+1. Parses the ontology and writes it out as an OWL file (`schema.rdf`).
+2. Runs HermiT on the ontology to check it is consistent.
+3. Creates typed entities, samples object-property triples, and checks each triple against the OWL axioms before keeping it.
+4. Applies supply-chain specific rules — single grower per harvest batch, no circular shipments, logistics providers can't manage farms, one owner per facility, mandatory harvest links, etc.
+5. Fills in literal values (dates, codes, weights, names) using value profiles, with temporal dependencies where they make sense (for example, a shipment date is derived from its batch's harvest date).
+6. Serializes the final graph to Turtle, RDF/XML, N-Triples, or JSON-LD, and optionally reasons over it again.
 
----
+## Requirements
 
-## Overview
+- Python 3.8 or newer
+- Java (only if you want HermiT to check consistency — you can skip it)
 
-Upstream **PyGraft** generates generic synthetic RDF graphs with placeholder names (`C1`, `E1`, `R1`). **PyGraft-SC** replaces those placeholders with a real, configurable **supply-chain domain** — farms, mills, harvest batches, shipments, logistics providers, retailers — driven entirely by YAML.
-
-The generator produces:
-
-- a reasoned **OWL TBox** (`schema.rdf`) from a YAML ontology
-- an **ABox** of instance data that satisfies OWL axioms *and* supply-chain business rules
-- realistic datatype literals (dates, codes, weights, names) with **temporal dependencies** between properties
-- a final KG in Turtle / RDF-XML / N-Triples / JSON-LD, optionally verified with the **HermiT** reasoner
-
-Everything is reproducible via a single `--seed` flag.
-
----
-
-## Features
-
-- **Three progressive ontologies** — `minimal`, `standard`, `extended` — covering class hierarchy, disjointness, inverse / functional / asymmetric / irreflexive properties, and property hierarchies.
-- **Three-layer consistency enforcement**
-  1. OWL TBox validation (HermiT on `schema.rdf`)
-  2. Per-triple checks during generation (functional / inverse-functional / asymmetric / irreflexive conflicts)
-  3. Post-generation supply-chain rules — chain-of-custody, role separation, single-owner-per-facility, non-circular shipments, grouped shipment routes, orphan-facility pruning
-- **Value Profile Engine** with 13 literal generators (`truncated_normal`, `uniform`, `date_range`, `relation_offset`, `property_offset`, `code`, weighted `choice`, `faker`, …) and priority-ordered temporal dependencies.
-- **Tunable statistics** — Pareto / Zipf / uniform popularity skews, per-relation hotspots, configurable multi-typing depth, balanced-vs-imbalanced relation distributions.
-- **Domain-specific Faker providers** for readable entity labels.
-- **Deterministic** — identical `--seed` ⇒ identical graph.
-
----
-
-## End-to-End Pipeline
-
-The generator runs in two stages sharing a single handoff contract — JSON checkpoints written by the schema stage and consumed by the instance stage.
-
-**Stage 1 — Schema (TBox)**
-
-1. Parse and validate `schema_*.yaml` (classes, relations, dataproperties).
-2. Build an OWL ontology and serialize it to `schema.rdf`.
-3. Write JSON checkpoints: `class_info.json`, `relation_info.json`, `dataproperty_info.json`.
-4. *(Optional)* Run HermiT to confirm the ontology is consistent.
-
-**Stage 2 — Instances (ABox)**
-
-1. Load the JSON checkpoints plus `generation.yaml` and `value_profiles.yaml`.
-2. Create typed entities and sample object-property triples under OWL consistency checks.
-3. Apply supply-chain business rules (chain-of-custody, role separation, shipment routing, …).
-4. Generate realistic literal values via the Value Profile Engine.
-5. Serialize the final KG to `full_graph.<ttl | nt | rdf | jsonld>`.
-6. *(Optional)* Run HermiT on the complete graph.
-
----
-
-## Quickstart
-
-### Requirements
-
-- **Python** 3.8+
-- **Java** 8+ *(only required when HermiT consistency checking is enabled)*
-
-### Install
+## Install
 
 ```bash
-git clone https://github.com/<your-username>/pygraft-sc.git
-cd pygraft-sc
+git clone <your-repo-url>
+cd pygraft_sc_project
 
 python -m venv .venv
 # Windows
 .\.venv\Scripts\activate
-# macOS / Linux
+# Linux / macOS
 source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
 
-The project is installed in editable mode, so changes under `pygraft/` take effect immediately.
+The project installs in editable mode, so edits under `pygraft/` take effect without reinstalling.
 
-### Run
+## Run
+
+The default run uses the standard supply-chain schema and writes Turtle:
 
 ```bash
-# Default: standard schema, Turtle output, HermiT on
 python -m cli.pygraft_sc --format ttl --out supply_chain_kg.ttl
+```
 
-# Fast demo (skip reasoner)
+Skip the reasoner for a much faster run:
+
+```bash
 python -m cli.pygraft_sc \
     --schema pygraft/domains/supply_chain/ontology/schema_minimal.yaml \
     --skip-consistency --format ttl --seed 42 --out demo_minimal.ttl
+```
 
-# Full extended schema
+Use the richer schema:
+
+```bash
 python -m cli.pygraft_sc \
     --schema pygraft/domains/supply_chain/ontology/schema_extended.yaml \
     --format ttl --seed 42 --out demo_extended.ttl
 ```
 
-### CLI Options
+### CLI flags
 
-| Flag | Default | Purpose |
-|---|---|---|
-| `--schema` | `schema_standard.yaml` | Path to a schema YAML file |
-| `--format` | `ttl` | Output serialization: `ttl`, `json-ld`, `nt`, `rdf`, `xml` |
-| `--seed` | `42` | Deterministic random seed |
-| `--out` | `supply_chain_kg.ttl` | Destination file for the final graph |
-| `--check-consistency` / `--skip-consistency` | `check` | Toggle HermiT reasoning |
+- `--schema` — path to the schema YAML (defaults to `schema_standard.yaml`)
+- `--format` — one of `ttl`, `json-ld`, `nt`, `rdf`, `xml`
+- `--seed` — random seed (default 42)
+- `--out` — file to write the final graph to
+- `--check-consistency` / `--skip-consistency` — turn HermiT on or off (on by default)
 
----
+## Schemas
 
-## Schema Variants
+There are three schema variants, so you can pick whichever matches the complexity you want to show:
 
-| Variant | Classes | Object Properties | Datatype Properties | File |
-|---|---:|---:|---:|---|
-| **Minimal**  | 4  | 5  | 3  | `pygraft/domains/supply_chain/ontology/schema_minimal.yaml`  |
-| **Standard** | 11 | 12 | 8  | `pygraft/domains/supply_chain/ontology/schema_standard.yaml` |
-| **Extended** | 25 | 40 | 15 | `pygraft/domains/supply_chain/ontology/schema_extended.yaml` |
+| Variant  | Classes | Object properties | Datatype properties |
+|----------|--------:|------------------:|--------------------:|
+| Minimal  | 4       | 5                 | 3                   |
+| Standard | 11      | 12                | 8                   |
+| Extended | 25      | 40                | 15                  |
 
-Each variant is a fully self-contained ontology — pick based on the complexity you want to showcase or benchmark.
+They all live under `pygraft/domains/supply_chain/ontology/`.
 
----
+## Example run
 
-## Example Output
+Numbers below come from the committed artifacts in `output/`, generated with the default config and seed 42.
 
-Statistics from the committed artifacts under `output/` (generated with the default configuration and `--seed 42`).
+| Schema                  | Entities | Relations used | Triples |
+|-------------------------|---------:|---------------:|--------:|
+| `supply_chain_minimal`  | 3,664    | 5              | 4,455   |
+| `supply_chain`          | 2,271    | 11             | 2,424   |
+| `supply_chain_extended` | 5,493    | 40             | 14,491  |
 
-| Schema | Entities | Instantiated Relations | Triples |
-|---|---:|---:|---:|
-| `supply_chain_minimal`  | 3,664 | 5  | 4,455  |
-| `supply_chain`          | 2,271 | 11 | 2,424  |
-| `supply_chain_extended` | 5,493 | 40 | 14,491 |
-
-A typical Turtle snippet from `full_graph.ttl`:
+And a small Turtle snippet of what the output looks like:
 
 ```turtle
-sc:Entity_42  a  sc:HarvestBatch ;
-    rdfs:label       "Batch Oakridge-2024-07" ;
-    sc:harvestedFrom sc:Entity_17 ;
-    sc:harvestDate   "2024-07-14"^^xsd:date ;
-    sc:harvestWeightKg "1342.5"^^xsd:decimal ;
-    sc:qualityGrade  "A" .
+sc:Entity_42 a sc:HarvestBatch ;
+    rdfs:label          "Batch Oakridge-2024-07" ;
+    sc:harvestedFrom    sc:Entity_17 ;
+    sc:harvestDate      "2024-07-14"^^xsd:date ;
+    sc:harvestWeightKg  "1342.5"^^xsd:decimal ;
+    sc:qualityGrade     "A" .
 
-sc:Entity_91  a  sc:Shipment ;
-    sc:carriesBatch  sc:Entity_42 ;
-    sc:shippedFrom   sc:Entity_17 ;
-    sc:shippedTo     sc:Entity_58 ;
-    sc:shippedBy     sc:Entity_33 ;
-    sc:shipmentDate  "2024-07-21"^^xsd:date ;
+sc:Entity_91 a sc:Shipment ;
+    sc:carriesBatch   sc:Entity_42 ;
+    sc:shippedFrom    sc:Entity_17 ;
+    sc:shippedTo      sc:Entity_58 ;
+    sc:shippedBy      sc:Entity_33 ;
+    sc:shipmentDate   "2024-07-21"^^xsd:date ;
     sc:shipmentStatus "in_transit" .
 ```
 
----
+## Output
 
-## Generated Artifacts
-
-Each run writes to two locations:
-
-- the path given by `--out` (current working directory)
-- a structured directory at `output/<schema_name>/`
+Every run writes the final graph twice: once to the `--out` path you give on the command line, and once to a structured folder under `output/<schema_name>/`:
 
 ```
 output/supply_chain/
-├── schema.rdf                 # OWL TBox
-├── class_info.json            # Parsed class hierarchy + disjointness
-├── relation_info.json         # Object properties + characteristics
-├── dataproperty_info.json     # Datatype properties
-├── kg_info.json               # Run metrics (counts, avg depth, multi-typing)
-└── full_graph.<ext>           # Final TBox + ABox
+├── schema.rdf              # OWL ontology (TBox)
+├── class_info.json         # Parsed class hierarchy + disjointness
+├── relation_info.json      # Object properties + OWL characteristics
+├── dataproperty_info.json  # Datatype properties
+├── kg_info.json            # Run metrics
+└── full_graph.<ext>        # Final graph (TBox + ABox)
 ```
 
----
+The JSON files are checkpoints produced by the schema stage and read by the instance generator. They are what makes the two stages of the pipeline loosely coupled.
 
 ## Configuration
 
-### 1. Ontology — `ontology/schema_*.yaml`
+Three YAML files drive the generator. They sit under `pygraft/domains/supply_chain/`.
+
+**`ontology/schema_*.yaml`** — the ontology itself. Classes, their parent and disjointness, object properties with their domain/range/characteristics, datatype properties and their XSD type.
 
 ```yaml
 classes:
@@ -209,7 +153,7 @@ dataproperties:
     datatype: xsd:date
 ```
 
-### 2. Generation — `config/generation.yaml`
+**`config/generation.yaml`** — how big the graph should be and how skewed the distributions are. Entity count, triple count, multi-typing depth, relation hotspots, per-class popularity curves (uniform, Pareto, Zipf), whether to run HermiT.
 
 ```yaml
 num_entities: 5000
@@ -231,79 +175,61 @@ popularity_skew:
     LogisticsProvider: { distribution: pareto, alpha: 1.1, head_boost: 2.5 }
 ```
 
-### 3. Value Profiles — `config/value_profiles.yaml`
+**`config/value_profiles.yaml`** — how each literal is generated. Each datatype property maps to a profile type: `truncated_normal`, `uniform`, `date_range`, `datetime_range`, `relation_offset`, `property_offset`, `ratio`, `code`, `choice`, `boolean`, `text`, `faker`, or `blend_ratio`. The offset profiles are what let a shipment date depend on its batch's harvest date instead of being random.
 
-Each datatype property is mapped to one of 13 generator types — `truncated_normal`, `uniform`, `date_range`, `datetime_range`, `relation_offset`, `property_offset`, `ratio`, `code`, `choice`, `boolean`, `text`, `faker`, `blend_ratio` — enabling temporally-coherent dates, realistic codes, and weighted categorical values.
-
----
-
-## Repository Layout
+## Repository layout
 
 ```
 pygraft_sc_project/
 ├── cli/
-│   └── pygraft_sc.py                   # Click-based CLI entry point
+│   └── pygraft_sc.py                 # CLI entry point
 ├── pygraft/
 │   ├── core/
-│   │   ├── schema_constructor.py       # TBox builder
-│   │   ├── kg_generator.py             # ABox + supply-chain rule engine
-│   │   ├── utils_schema.py             # YAML parsing & validation
-│   │   └── utils.py                    # HermiT reasoner wrapper
+│   │   ├── schema_constructor.py     # Builds the OWL ontology
+│   │   ├── kg_generator.py           # Generates instances + applies SC rules
+│   │   ├── utils_schema.py           # YAML parsing and validation
+│   │   └── utils.py                  # HermiT wrapper, helpers
 │   ├── domains/supply_chain/
-│   │   ├── ontology/                   # schema_{minimal,standard,extended}.yaml
-│   │   ├── config/                     # generation.yaml, value_profiles.yaml
-│   │   ├── constraints/                # SHACL shapes, OWL axioms
+│   │   ├── ontology/                 # schema_{minimal,standard,extended}.yaml
+│   │   ├── config/                   # generation.yaml, value_profiles.yaml
+│   │   ├── constraints/              # SHACL shapes, OWL axioms
 │   │   ├── pipelines/pipeline_supply_chain.py
 │   │   └── providers/faker_providers.py
 │   └── utils.py
-├── output/                             # Generated artifacts (per run)
+├── output/                           # Written by each run
 ├── requirements.txt
 ├── setup.py
 └── README.md
 ```
 
----
+## Using it for another domain
 
-## Extending to a New Domain
+The core of the generator is not tied to supply chains — that logic lives in `pygraft/domains/supply_chain/` plus the supply-chain-specific methods in `kg_generator.py`. To adapt it to a different domain you would:
 
-1. Author a new ontology at `pygraft/domains/<domain>/ontology/schema_*.yaml`.
-2. Add `config/generation.yaml` and `config/value_profiles.yaml` beside it.
-3. Register domain-specific Faker providers in `providers/faker_providers.py`.
-4. Implement a pipeline entry point mirroring `pipeline_supply_chain.py`.
-5. *(Optional)* Add domain-specific rule-enforcement methods to `InstanceGenerator`.
+1. Write a new ontology under `pygraft/domains/<your_domain>/ontology/`.
+2. Add a `generation.yaml` and `value_profiles.yaml` next to it.
+3. Add any Faker providers you want for readable labels.
+4. Copy `pipeline_supply_chain.py` as a starting point and wire it up.
 
-The core generator, reasoner wrapper, and Value Profile Engine are domain-agnostic and reusable as-is.
+Rule-enforcement methods are optional — without them you still get an OWL-consistent graph; with them you get domain-consistent data.
 
----
-
-## Acknowledgments
+## Credits
 
 - Built on top of [PyGraft](https://github.com/nicolas-hbt/pygraft) by Nicolas Hubert et al.
-- OWL reasoning provided by [HermiT](http://www.hermit-reasoner.com/).
-- RDF tooling by [RDFLib](https://rdflib.readthedocs.io/) and [Owlready2](https://owlready2.readthedocs.io/).
-
----
+- OWL reasoning: [HermiT](http://www.hermit-reasoner.com/).
+- RDF libraries: [RDFLib](https://rdflib.readthedocs.io/) and [Owlready2](https://owlready2.readthedocs.io/).
 
 ## Citation
 
 ```bibtex
-@mastersthesis{pygraft_sc_thesis,
+@mastersthesis{islam2026graphdata,
   title  = {Artificial Generation of Graph Data Using Real-World Configurations},
   author = {Islam, Rakibul},
   school = {TU Chemnitz},
   year   = {2026}
 }
-
-@inproceedings{hubert2024pygraft,
-  title     = {PyGraft: Configurable Generation of Synthetic Schemas and Knowledge Graphs at Your Fingertips},
-  author    = {Hubert, Nicolas and others},
-  booktitle = {ESWC},
-  year      = {2024}
-}
 ```
-
----
 
 ## License
 
-MIT — see the upstream [PyGraft](https://github.com/nicolas-hbt/pygraft) repository for original licensing terms.
+MIT. See the upstream PyGraft repository for the original licensing terms.
