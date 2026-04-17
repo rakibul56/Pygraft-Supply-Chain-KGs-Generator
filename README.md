@@ -1,12 +1,12 @@
 <div align="center">
 
-# PyGraft-SC
+# Artificial Generation of Graph Data Using Real-World Configurations
 
 ### Synthetic Supply Chain Knowledge Graph Generator
 
 *A configuration-driven, ontology-aware extension of [PyGraft](https://github.com/nicolas-hbt/pygraft) for generating realistic, OWL-consistent supply-chain knowledge graphs.*
 
-Master's thesis: **Artificial Generation of Graph Data Using Real-World Configurations** — TU Chemnitz.
+Master's thesis — TU Chemnitz.
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![RDF / OWL](https://img.shields.io/badge/Knowledge%20Graph-RDF%20%7C%20OWL%202-0A7E8C)](https://www.w3.org/TR/owl2-overview/)
@@ -51,21 +51,23 @@ Everything is reproducible via a single `--seed` flag.
 
 ## End-to-End Pipeline
 
-```mermaid
-flowchart LR
-    A[schema_*.yaml] --> B[load_schema_yaml]
-    B --> C[SchemaBuilder]
-    C --> D[schema.rdf<br/>+ *_info.json]
+The generator runs in two stages sharing a single handoff contract — JSON checkpoints written by the schema stage and consumed by the instance stage.
 
-    E[generation.yaml<br/>value_profiles.yaml] --> F[InstanceGenerator]
-    D --> F
-    F --> G[Business-rule<br/>Enforcement]
-    G --> V[Value Profile<br/>Engine]
-    V --> H[full_graph<br/>.ttl / .nt / .rdf / .jsonld]
-    H --> I[Optional HermiT<br/>Consistency Check]
-```
+**Stage 1 — Schema (TBox)**
 
-Two stages, one contract. `SchemaBuilder` serializes the TBox and writes JSON checkpoints (`class_info.json`, `relation_info.json`, `dataproperty_info.json`). `InstanceGenerator` reads those checkpoints, samples typed entities and triples under OWL constraints, applies supply-chain rules, assigns literal values, and serializes the final KG.
+1. Parse and validate `schema_*.yaml` (classes, relations, dataproperties).
+2. Build an OWL ontology and serialize it to `schema.rdf`.
+3. Write JSON checkpoints: `class_info.json`, `relation_info.json`, `dataproperty_info.json`.
+4. *(Optional)* Run HermiT to confirm the ontology is consistent.
+
+**Stage 2 — Instances (ABox)**
+
+1. Load the JSON checkpoints plus `generation.yaml` and `value_profiles.yaml`.
+2. Create typed entities and sample object-property triples under OWL consistency checks.
+3. Apply supply-chain business rules (chain-of-custody, role separation, shipment routing, …).
+4. Generate realistic literal values via the Value Profile Engine.
+5. Serialize the final KG to `full_graph.<ttl | nt | rdf | jsonld>`.
+6. *(Optional)* Run HermiT on the complete graph.
 
 ---
 
