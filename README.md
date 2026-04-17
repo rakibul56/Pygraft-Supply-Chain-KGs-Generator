@@ -14,7 +14,7 @@ Master's thesis — TU Chemnitz.
 [![Domain](https://img.shields.io/badge/Domain-Supply%20Chain-2E8B57)](#schema-variants)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey)](#license)
 
-[Features](#features) · [Pipeline](#end-to-end-pipeline) · [Quickstart](#quickstart) · [Configuration](#configuration) · [Examples](#example-output) · [Docs](#documentation)
+[Features](#features) · [Pipeline](#end-to-end-pipeline) · [Quickstart](#quickstart) · [Configuration](#configuration) · [Examples](#example-output)
 
 </div>
 
@@ -259,9 +259,7 @@ pygraft_sc_project/
 ├── output/                             # Generated artifacts (per run)
 ├── requirements.txt
 ├── setup.py
-├── README.md
-├── CLAUDE.md                           # Architecture notes for Claude Code
-└── DEMO_GUIDE.md                       # End-to-end walkthrough
+└── README.md
 ```
 
 ---
@@ -275,13 +273,6 @@ pygraft_sc_project/
 5. *(Optional)* Add domain-specific rule-enforcement methods to `InstanceGenerator`.
 
 The core generator, reasoner wrapper, and Value Profile Engine are domain-agnostic and reusable as-is.
-
----
-
-## Documentation
-
-- **[`CLAUDE.md`](CLAUDE.md)** — architecture, handoff contracts, and implementation notes (intended for use with [Claude Code](https://claude.com/claude-code)).
-- **[`DEMO_GUIDE.md`](DEMO_GUIDE.md)** — full oral-defense walkthrough with function-level call chain.
 
 ---
 
