@@ -198,46 +198,6 @@
         "Organization-Shipment"
     ],
     "class2disjoints_extended": {
-        "Facility": [
-            "Grower",
-            "HarvestBatch",
-            "LogisticsProvider",
-            "MaterialLot",
-            "Organization",
-            "Retailer",
-            "Shipment"
-        ],
-        "Shipment": [
-            "Facility",
-            "Farm",
-            "Grower",
-            "HarvestBatch",
-            "LogisticsProvider",
-            "MaterialLot",
-            "Mill",
-            "Organization",
-            "Retailer"
-        ],
-        "Farm": [
-            "Grower",
-            "HarvestBatch",
-            "LogisticsProvider",
-            "MaterialLot",
-            "Mill",
-            "Organization",
-            "Retailer",
-            "Shipment"
-        ],
-        "Mill": [
-            "Farm",
-            "Grower",
-            "HarvestBatch",
-            "LogisticsProvider",
-            "MaterialLot",
-            "Organization",
-            "Retailer",
-            "Shipment"
-        ],
         "Grower": [
             "Facility",
             "Farm",
@@ -258,6 +218,25 @@
             "Retailer",
             "Shipment"
         ],
+        "Organization": [
+            "Facility",
+            "Farm",
+            "HarvestBatch",
+            "MaterialLot",
+            "Mill",
+            "Shipment"
+        ],
+        "Shipment": [
+            "Facility",
+            "Farm",
+            "Grower",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "MaterialLot",
+            "Mill",
+            "Organization",
+            "Retailer"
+        ],
         "Retailer": [
             "Facility",
             "Farm",
@@ -268,12 +247,14 @@
             "Mill",
             "Shipment"
         ],
-        "Organization": [
+        "MaterialLot": [
             "Facility",
             "Farm",
-            "HarvestBatch",
-            "MaterialLot",
+            "Grower",
+            "LogisticsProvider",
             "Mill",
+            "Organization",
+            "Retailer",
             "Shipment"
         ],
         "HarvestBatch": [
@@ -286,12 +267,31 @@
             "Retailer",
             "Shipment"
         ],
-        "MaterialLot": [
-            "Facility",
+        "Facility": [
+            "Grower",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "MaterialLot",
+            "Organization",
+            "Retailer",
+            "Shipment"
+        ],
+        "Farm": [
+            "Grower",
+            "HarvestBatch",
+            "LogisticsProvider",
+            "MaterialLot",
+            "Mill",
+            "Organization",
+            "Retailer",
+            "Shipment"
+        ],
+        "Mill": [
             "Farm",
             "Grower",
+            "HarvestBatch",
             "LogisticsProvider",
-            "Mill",
+            "MaterialLot",
             "Organization",
             "Retailer",
             "Shipment"

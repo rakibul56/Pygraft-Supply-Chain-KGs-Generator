@@ -1,0 +1,137 @@
+{
+    "statistics": {
+        "num_dataproperties": 15,
+        "prop_functional": 0.93
+    },
+    "dataproperties": [
+        "organizationName",
+        "batchCode",
+        "harvestDate",
+        "harvestWeightKg",
+        "cropType",
+        "shipmentId",
+        "shipmentDate",
+        "shipmentStatus",
+        "productName",
+        "productSKU",
+        "productBatchCode",
+        "productionDate",
+        "vehiclePlate",
+        "facilityCode",
+        "qualityGrade"
+    ],
+    "dp2dom": {
+        "organizationName": "Organization",
+        "batchCode": "HarvestBatch",
+        "harvestDate": "HarvestBatch",
+        "harvestWeightKg": "HarvestBatch",
+        "cropType": "HarvestBatch",
+        "shipmentId": "Shipment",
+        "shipmentDate": "Shipment",
+        "shipmentStatus": "Shipment",
+        "productName": "Product",
+        "productSKU": "Product",
+        "productBatchCode": "ProductBatch",
+        "productionDate": "ProductBatch",
+        "vehiclePlate": "TransportVehicle",
+        "facilityCode": "Facility",
+        "qualityGrade": "ProductBatch"
+    },
+    "dp2datatype": {
+        "organizationName": "xsd:string",
+        "batchCode": "xsd:string",
+        "harvestDate": "xsd:dateTime",
+        "harvestWeightKg": "xsd:decimal",
+        "cropType": "xsd:string",
+        "shipmentId": "xsd:string",
+        "shipmentDate": "xsd:dateTime",
+        "shipmentStatus": "xsd:string",
+        "productName": "xsd:string",
+        "productSKU": "xsd:string",
+        "productBatchCode": "xsd:string",
+        "productionDate": "xsd:dateTime",
+        "vehiclePlate": "xsd:string",
+        "facilityCode": "xsd:string",
+        "qualityGrade": "xsd:string"
+    },
+    "dp2patterns": {
+        "organizationName": [
+            "owl:Functional"
+        ],
+        "batchCode": [
+            "owl:Functional"
+        ],
+        "harvestDate": [
+            "owl:Functional"
+        ],
+        "harvestWeightKg": [],
+        "cropType": [
+            "owl:Functional"
+        ],
+        "shipmentId": [
+            "owl:Functional"
+        ],
+        "shipmentDate": [
+            "owl:Functional"
+        ],
+        "shipmentStatus": [
+            "owl:Functional"
+        ],
+        "productName": [
+            "owl:Functional"
+        ],
+        "productSKU": [
+            "owl:Functional"
+        ],
+        "productBatchCode": [
+            "owl:Functional"
+        ],
+        "productionDate": [
+            "owl:Functional"
+        ],
+        "vehiclePlate": [
+            "owl:Functional"
+        ],
+        "facilityCode": [
+            "owl:Functional"
+        ],
+        "qualityGrade": [
+            "owl:Functional"
+        ]
+    },
+    "pattern2dps": {
+        "owl:Functional": [
+            "batchCode",
+            "cropType",
+            "facilityCode",
+            "harvestDate",
+            "organizationName",
+            "productBatchCode",
+            "productName",
+            "productSKU",
+            "productionDate",
+            "qualityGrade",
+            "shipmentDate",
+            "shipmentId",
+            "shipmentStatus",
+            "vehiclePlate"
+        ]
+    },
+    "functional_dataproperties": [
+        "batchCode",
+        "cropType",
+        "facilityCode",
+        "harvestDate",
+        "organizationName",
+        "productBatchCode",
+        "productName",
+        "productSKU",
+        "productionDate",
+        "qualityGrade",
+        "shipmentDate",
+        "shipmentId",
+        "shipmentStatus",
+        "vehiclePlate"
+    ],
+    "dp2super": {}
+}

@@ -1,7 +1,7 @@
 schema:
   name: supply_chain
   format: xml
-  
+
 classes:
   Entity:
     parents: []
@@ -23,6 +23,7 @@ classes:
   Retailer:
     parents:
       - Organization
+    
 
   Facility:
     parents:
@@ -69,6 +70,7 @@ classes:
     disjoint_with:
       - Grower
       - Retailer
+
 
 relations:
   ownsFacility:
@@ -141,6 +143,7 @@ relations:
     characteristics:
       - owl:Functional
 
+
 dataproperties:
   organizationName:
     domain: Organization
@@ -187,3 +190,5 @@ dataproperties:
     datatype: xsd:string
     characteristics:
       - owl:Functional
+
+ 

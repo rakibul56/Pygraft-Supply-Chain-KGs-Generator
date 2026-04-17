@@ -27,6 +27,8 @@ classes:
       - Facility
       - Organization
 
+  
+
 relations:
   ownsFacility:
     domain: Organization
@@ -56,6 +58,8 @@ relations:
     range: Facility
     characteristics:
       - owl:Functional
+
+ 
 
 dataproperties:
   organizationName:

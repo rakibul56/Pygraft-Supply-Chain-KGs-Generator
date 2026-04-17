@@ -1,17 +1,67 @@
-# Pygraft Supply Chain Generator
+# PyGraft-SC
+Master's thesis project: **Artificial Generation of Graph Data Using Real-World Configurations**
 
-This project generates a synthetic supply-chain knowledge graph from a schema
-and a small set of configuration files. The main entrypoint is a CLI that builds
-the schema artifacts, generates instance data, and writes an RDF graph to disk.
+![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white)
+![RDF/OWL](https://img.shields.io/badge/Knowledge%20Graph-RDF%20%7C%20OWL-0A7E8C)
+![Domain](https://img.shields.io/badge/Domain-Supply%20Chain-2E8B57)
 
-## Requirements
+## What This Project Does
+PyGraft-SC extends PyGraft to generate **domain-specific synthetic supply-chain knowledge graphs** instead of generic nodes (`C1`, `E1`, `R1`).
 
+It takes three YAML inputs:
+- ontology schema (`schema_*.yaml`)
+- generation behavior (`generation.yaml`)
+- literal value profiles (`value_profiles.yaml`)
+
+Then it builds:
+- a TBox ontology (`schema.rdf`)
+- an ABox instance graph (`full_graph.<format>`)
+
+with OWL-aware constraints, configurable distributions, and realistic supply-chain values.
+
+## Core Contributions
+- Domain-specific schema generation with three ontology variants (minimal, standard, extended).
+- Rule-aware instance generation that respects class hierarchy, domain/range, inverse/functional properties, and disjointness constraints.
+- Value Profile Engine for realistic literals (codes, dates, weighted choices, Faker-based names, relation-based temporal offsets).
+- Reproducible generation through configurable random seeds and YAML-driven parameters.
+
+## End-to-End Pipeline
+```mermaid
+flowchart LR
+    A[schema_*.yaml] --> B[load_schema_yaml]
+    B --> C[SchemaBuilder]
+    C --> D[schema.rdf + *_info.json]
+
+    E[generation.yaml + value_profiles.yaml] --> F[InstanceGenerator]
+    D --> F
+    F --> G[Rule Enforcement + Value Assignment]
+    G --> H[full_graph.ttl/json-ld/nt/rdf/xml]
+    H --> I[Optional HermiT Consistency Check]
+```
+
+## Schema Variants
+
+| Variant | Classes | Object Properties | Datatype Properties | File |
+|---|---:|---:|---:|---|
+| Minimal | 4 | 5 | 3 | `pygraft/domains/supply_chain/ontology/schema_minimal.yaml` |
+| Standard | 11 | 12 | 8 | `pygraft/domains/supply_chain/ontology/schema_standard.yaml` |
+| Extended | 25 | 40 | 15 | `pygraft/domains/supply_chain/ontology/schema_extended.yaml` |
+
+## Example Output Snapshot
+These are example statistics from committed artifacts in `output/`.
+
+| Schema | Entities | Instantiated Relations | Triples |
+|---|---:|---:|---:|
+| supply_chain_minimal | 3,664 | 5 | 4,455 |
+| supply_chain | 2,271 | 11 | 2,424 |
+| supply_chain_extended | 5,493 | 40 | 14,491 |
+
+## Quickstart
+Requirements:
 - Python 3.8+
-- Java (only if you enable consistency checking with HermiT)
+- Java (only if running consistency checks with HermiT)
 
-## Install
-
-PowerShell (Windows):
+PowerShell:
 
 ```powershell
 python -m venv .venv
@@ -20,51 +70,52 @@ pip install -r requirements.txt
 ```
 
 ## Run
-
-After installing, the `pygraft-sc` command is available:
+Default run:
 
 ```powershell
-python -m pygraft.cli.pygraft_sc --format ttl --out supply_chain_kg.ttl
-
-full example with optional flags:
-
-python -m cli.pygraft_sc --skip-consistency --format ttl --schema pygraft/domains/supply_chain/ontology/schema_standard.yaml --seed 43 --out graph.ttl
+python -m cli.pygraft_sc --format ttl --out supply_chain_kg.ttl
 ```
 
-Optional flags:
+Fast demo (skip reasoner):
 
-- `--schema` points to a schema file (see `pygraft/domains/supply_chain/ontology/`)
-- `--seed` fixes randomness for repeatable output
-- `--check-consistency` runs HermiT (requires Java and can be slow)
+```powershell
+python -m cli.pygraft_sc --schema pygraft/domains/supply_chain/ontology/schema_minimal.yaml --skip-consistency --format ttl --seed 42 --out demo_minimal.ttl
+```
 
-## Output
+Extended schema example:
 
-Two outputs are written:
+```powershell
+python -m cli.pygraft_sc --schema pygraft/domains/supply_chain/ontology/schema_extended.yaml --format ttl --seed 42 --out demo_extended.ttl
+```
 
-- The CLI `--out` file (e.g., `supply_chain_kg.ttl`) in the current folder
-- The generated graph in `output/<schema_name>/full_graph.<ext>`
+## CLI Options
+- `--schema`: choose schema YAML (`schema_minimal.yaml`, `schema_standard.yaml`, `schema_extended.yaml`)
+- `--format`: `ttl`, `json-ld`, `nt`, `rdf`, `xml`
+- `--seed`: set deterministic random seed
+- `--check-consistency / --skip-consistency`: toggle HermiT consistency checking
+- `--out`: output file path
 
-The extension matches the chosen format (`ttl`, `json-ld`, `nt`, `rdf`, or `xml`).
+## Generated Artifacts
+Each run writes:
+- your selected `--out` file in the current directory
+- generated artifacts under `output/<schema_name>/`, including:
+  - `schema.rdf`
+  - `class_info.json`
+  - `relation_info.json`
+  - `dataproperty_info.json`
+  - `kg_info.json`
+  - `full_graph.<ext>`
 
-## Configuration
-
-Main configuration lives in:
-
+## Key Configuration Files
 - `pygraft/domains/supply_chain/config/generation.yaml`
+  - graph size (`num_entities`, `num_triples`)
+  - typing controls (`multityping`, `avg_depth_specific_class`)
+  - relation/class distribution controls (`relation_distribution`, `popularity_skew`)
+  - reasoner settings (`kg_check_reasoner`, `reasoner_java_memory_mb`)
 - `pygraft/domains/supply_chain/config/value_profiles.yaml`
+  - domain literals (IDs, company names, crop types, shipment status, temporal offsets)
 
-Common parameters in `generation.yaml`:
+## Thesis Demo Guide
+For a full oral-defense walkthrough and function-level call chain, see:
 
-- `num_entities`, `num_triples`: size of the generated graph
-- `relation_balance_ratio`: how balanced relations are
-- `prop_untyped_entities`: fraction of untyped entities
-- `avg_depth_specific_class`: expected depth of specific class assignments
-- `multityping`: allow entities to have multiple specific classes
-- `avg_multityping`: average number of specific classes per entity (required when `multityping: true`)
-- `fast_gen`, `oversample`: speed/quality tradeoffs
-- `relation_distribution`, `popularity_skew`: control skew in relation and class usage
-- `dataproperty_priority`: priority for which data properties to populate
-- `kg_check_reasoner`, `reasoner_java_memory_mb`: consistency checking settings
-
-`value_profiles.yaml` controls how literal values are generated for data
-properties (faker sources, codes, date ranges, distributions, and choices).
+- `DEMO_GUIDE.md`

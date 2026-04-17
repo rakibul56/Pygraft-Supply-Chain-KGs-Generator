@@ -1,0 +1,105 @@
+{
+    "num_classes": 4,
+    "classes": [
+        "Entity",
+        "Organization",
+        "Facility",
+        "Shipment"
+    ],
+    "hierarchy_depth": 2,
+    "avg_class_depth": 1.75,
+    "class_inheritance_ratio": 3.0,
+    "direct_class2subclasses": {
+        "Entity": [
+            "Facility",
+            "Organization",
+            "Shipment"
+        ]
+    },
+    "direct_class2superclass": {
+        "Entity": "owl:Thing",
+        "Organization": "Entity",
+        "Facility": "Entity",
+        "Shipment": "Entity"
+    },
+    "transitive_class2subclasses": {
+        "owl:Thing": [
+            "Entity",
+            "Organization",
+            "Facility",
+            "Shipment"
+        ],
+        "Entity": [
+            "Organization",
+            "Facility",
+            "Shipment"
+        ]
+    },
+    "transitive_class2superclasses": {
+        "Entity": [
+            "owl:Thing"
+        ],
+        "Organization": [
+            "Entity",
+            "owl:Thing"
+        ],
+        "Facility": [
+            "Entity",
+            "owl:Thing"
+        ],
+        "Shipment": [
+            "Entity",
+            "owl:Thing"
+        ]
+    },
+    "avg_class_disjointness": 0.38,
+    "class2disjoints": {
+        "Organization": [
+            "Facility",
+            "Shipment"
+        ],
+        "Facility": [
+            "Organization",
+            "Shipment"
+        ],
+        "Shipment": [
+            "Facility",
+            "Organization"
+        ]
+    },
+    "class2disjoints_symmetric": [
+        "Facility-Organization",
+        "Facility-Shipment",
+        "Organization-Shipment"
+    ],
+    "class2disjoints_extended": {
+        "Facility": [
+            "Organization",
+            "Shipment"
+        ],
+        "Organization": [
+            "Facility",
+            "Shipment"
+        ],
+        "Shipment": [
+            "Facility",
+            "Organization"
+        ]
+    },
+    "layer2classes": {
+        "1": [
+            "Entity"
+        ],
+        "2": [
+            "Facility",
+            "Organization",
+            "Shipment"
+        ]
+    },
+    "class2layer": {
+        "Entity": 1,
+        "Facility": 2,
+        "Organization": 2,
+        "Shipment": 2
+    }
+}

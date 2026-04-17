@@ -1,8 +1,8 @@
 {
     "user_parameters": {
-        "schema": "supply_chain",
-        "num_entities": 5000,
-        "num_triples": 15000,
+        "schema": "supply_chain_extended",
+        "num_entities": 7000,
+        "num_triples": 20000,
         "relation_balance_ratio": 0.75,
         "prop_untyped_entities": 0.0,
         "avg_depth_specific_class": 3,
@@ -10,11 +10,11 @@
         "avg_multityping": 1
     },
     "statistics": {
-        "num_entities": 2271,
-        "num_instantiated_relations": 11,
-        "num_triples": 2424,
+        "num_entities": 5493,
+        "num_instantiated_relations": 40,
+        "num_triples": 14491,
         "prop_untyped_entities": 0.0,
-        "avg_depth_specific_class": 2.2516,
+        "avg_depth_specific_class": 2.245142857142857,
         "avg_multityping": 1.0
     }
 }

@@ -1,0 +1,45 @@
+{
+    "statistics": {
+        "num_dataproperties": 3,
+        "prop_functional": 1.0
+    },
+    "dataproperties": [
+        "organizationName",
+        "shipmentId",
+        "shipmentDate"
+    ],
+    "dp2dom": {
+        "organizationName": "Organization",
+        "shipmentId": "Shipment",
+        "shipmentDate": "Shipment"
+    },
+    "dp2datatype": {
+        "organizationName": "xsd:string",
+        "shipmentId": "xsd:string",
+        "shipmentDate": "xsd:dateTime"
+    },
+    "dp2patterns": {
+        "organizationName": [
+            "owl:Functional"
+        ],
+        "shipmentId": [
+            "owl:Functional"
+        ],
+        "shipmentDate": [
+            "owl:Functional"
+        ]
+    },
+    "pattern2dps": {
+        "owl:Functional": [
+            "organizationName",
+            "shipmentDate",
+            "shipmentId"
+        ]
+    },
+    "functional_dataproperties": [
+        "organizationName",
+        "shipmentDate",
+        "shipmentId"
+    ],
+    "dp2super": {}
+}

@@ -1,12 +1,10 @@
-
 format: xml
-
 
 num_entities: 5000
 num_triples: 15000
 oversample: true
 fast_gen: true
-multityping: false
+multityping: true
 avg_multityping: 1
 kg_check_reasoner: true
 prop_untyped_entities: 0.0
@@ -14,26 +12,21 @@ relation_balance_ratio: 0.75
 avg_depth_specific_class: 3.5
 reasoner_java_memory_mb: 2000
 
-
-
-
-
-
 relation_distribution:
   alpha: 1.2
   hotspots:
-  - multiplier: 3.0
-    relation: carriesBatch
-  - multiplier: 1.5
-    relation: shippedFrom
-  - multiplier: 1.5
-    relation: shippedTo
-  - multiplier: 2.2
-    relation: shippedBy
-  - multiplier: 1.8
-    relation: processedAt
-  - multiplier: 1.6
-    relation: harvestedFrom
+    - multiplier: 3.0
+      relation: carriesBatch
+    - multiplier: 1.5
+      relation: shippedFrom
+    - multiplier: 1.5
+      relation: shippedTo
+    - multiplier: 2.2
+      relation: shippedBy
+    - multiplier: 1.8
+      relation: processedAt
+    - multiplier: 1.6
+      relation: harvestedFrom
   type: pareto
 schema_name: supply_chain
 

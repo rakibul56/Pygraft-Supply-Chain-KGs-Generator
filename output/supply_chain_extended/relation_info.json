@@ -1,0 +1,269 @@
+{
+    "statistics": {
+        "num_relations": 40,
+        "prop_reflexive": 0.0,
+        "prop_irreflexive": 0.0,
+        "prop_functional": 0.25,
+        "prop_inversefunctional": 0.1,
+        "prop_symmetric": 0.0,
+        "prop_asymmetric": 0.0,
+        "prop_transitive": 0.0,
+        "prop_inverseof": 0.1,
+        "prop_subpropertyof": 0.45,
+        "prop_profiled_relations": 1.0,
+        "relation_specificity": 1.0
+    },
+    "relations": [
+        "ownsFacility",
+        "ownedBy",
+        "managesFarm",
+        "operatesMill",
+        "operatesWarehouse",
+        "operatesDistributionCenter",
+        "operatesPort",
+        "operatesPlant",
+        "ownsStore",
+        "ownsLab",
+        "harvestsBatch",
+        "harvestedFrom",
+        "processedAt",
+        "producesBatch",
+        "producesProduct",
+        "packagesBatch",
+        "batchDerivedFrom",
+        "batchOfProduct",
+        "suppliesTo",
+        "suppliesToDistributor",
+        "suppliesToRetailer",
+        "distributesTo",
+        "distributesProduct",
+        "sellsProduct",
+        "soldAt",
+        "storesBatch",
+        "storesProduct",
+        "transfersToDC",
+        "includedInShipment",
+        "carriesBatch",
+        "shippedBy",
+        "handledBy",
+        "shippedFrom",
+        "shippedTo",
+        "shippedVia",
+        "vehicleOwnedBy",
+        "inspectedAt",
+        "certifiedBy",
+        "regulatedBy",
+        "contractedWith"
+    ],
+    "rel2patterns": {
+        "ownsFacility": [],
+        "ownedBy": [
+            "owl:Functional"
+        ],
+        "managesFarm": [
+            "owl:InverseFunctional"
+        ],
+        "operatesMill": [],
+        "operatesWarehouse": [],
+        "operatesDistributionCenter": [],
+        "operatesPort": [],
+        "operatesPlant": [],
+        "ownsStore": [],
+        "ownsLab": [],
+        "harvestsBatch": [
+            "owl:InverseFunctional"
+        ],
+        "harvestedFrom": [
+            "owl:Functional"
+        ],
+        "processedAt": [
+            "owl:Functional"
+        ],
+        "producesBatch": [
+            "owl:InverseFunctional"
+        ],
+        "producesProduct": [],
+        "packagesBatch": [],
+        "batchDerivedFrom": [],
+        "batchOfProduct": [
+            "owl:Functional"
+        ],
+        "suppliesTo": [],
+        "suppliesToDistributor": [],
+        "suppliesToRetailer": [],
+        "distributesTo": [],
+        "distributesProduct": [],
+        "sellsProduct": [],
+        "soldAt": [],
+        "storesBatch": [],
+        "storesProduct": [],
+        "transfersToDC": [],
+        "includedInShipment": [],
+        "carriesBatch": [
+            "owl:InverseFunctional"
+        ],
+        "shippedBy": [
+            "owl:Functional"
+        ],
+        "handledBy": [],
+        "shippedFrom": [
+            "owl:Functional"
+        ],
+        "shippedTo": [
+            "owl:Functional"
+        ],
+        "shippedVia": [
+            "owl:Functional"
+        ],
+        "vehicleOwnedBy": [
+            "owl:Functional"
+        ],
+        "inspectedAt": [],
+        "certifiedBy": [
+            "owl:Functional"
+        ],
+        "regulatedBy": [],
+        "contractedWith": []
+    },
+    "reflexive_relations": [],
+    "irreflexive_relations": [],
+    "symmetric_relations": [],
+    "asymmetric_relations": [],
+    "functional_relations": [
+        "batchOfProduct",
+        "certifiedBy",
+        "harvestedFrom",
+        "ownedBy",
+        "processedAt",
+        "shippedBy",
+        "shippedFrom",
+        "shippedTo",
+        "shippedVia",
+        "vehicleOwnedBy"
+    ],
+    "inversefunctional_relations": [
+        "carriesBatch",
+        "harvestsBatch",
+        "managesFarm",
+        "producesBatch"
+    ],
+    "transitive_relations": [],
+    "inverseof_relations": [
+        "carriesBatch",
+        "includedInShipment",
+        "ownedBy",
+        "ownsFacility"
+    ],
+    "subrelations": [
+        "handledBy",
+        "managesFarm",
+        "operatesDistributionCenter",
+        "operatesMill",
+        "operatesPlant",
+        "operatesPort",
+        "operatesWarehouse",
+        "ownsLab",
+        "ownsStore"
+    ],
+    "rel2inverse": {
+        "ownsFacility": "ownedBy",
+        "includedInShipment": "carriesBatch",
+        "ownedBy": "ownsFacility",
+        "carriesBatch": "includedInShipment"
+    },
+    "rel2dom": {
+        "ownsFacility": "Organization",
+        "ownedBy": "Facility",
+        "managesFarm": "Grower",
+        "operatesMill": "Organization",
+        "operatesWarehouse": "Organization",
+        "operatesDistributionCenter": "Organization",
+        "operatesPort": "Organization",
+        "operatesPlant": "Organization",
+        "ownsStore": "Retailer",
+        "ownsLab": "CertificationBody",
+        "harvestsBatch": "Grower",
+        "harvestedFrom": "HarvestBatch",
+        "processedAt": "HarvestBatch",
+        "producesBatch": "Manufacturer",
+        "producesProduct": "Manufacturer",
+        "packagesBatch": "ProcessingPlant",
+        "batchDerivedFrom": "ProductBatch",
+        "batchOfProduct": "ProductBatch",
+        "suppliesTo": "Supplier",
+        "suppliesToDistributor": "Supplier",
+        "suppliesToRetailer": "Supplier",
+        "distributesTo": "Distributor",
+        "distributesProduct": "Distributor",
+        "sellsProduct": "Retailer",
+        "soldAt": "Product",
+        "storesBatch": "Warehouse",
+        "storesProduct": "Warehouse",
+        "transfersToDC": "Warehouse",
+        "includedInShipment": "MaterialLot",
+        "carriesBatch": "Shipment",
+        "shippedBy": "Shipment",
+        "handledBy": "Shipment",
+        "shippedFrom": "Shipment",
+        "shippedTo": "Shipment",
+        "shippedVia": "Shipment",
+        "vehicleOwnedBy": "TransportVehicle",
+        "inspectedAt": "Shipment",
+        "certifiedBy": "ProductBatch",
+        "regulatedBy": "Organization",
+        "contractedWith": "Organization"
+    },
+    "rel2range": {
+        "ownsFacility": "Facility",
+        "ownedBy": "Organization",
+        "managesFarm": "Farm",
+        "operatesMill": "Mill",
+        "operatesWarehouse": "Warehouse",
+        "operatesDistributionCenter": "DistributionCenter",
+        "operatesPort": "Port",
+        "operatesPlant": "ProcessingPlant",
+        "ownsStore": "RetailStore",
+        "ownsLab": "QualityLab",
+        "harvestsBatch": "HarvestBatch",
+        "harvestedFrom": "Farm",
+        "processedAt": "Mill",
+        "producesBatch": "ProductBatch",
+        "producesProduct": "Product",
+        "packagesBatch": "ProductBatch",
+        "batchDerivedFrom": "HarvestBatch",
+        "batchOfProduct": "Product",
+        "suppliesTo": "Manufacturer",
+        "suppliesToDistributor": "Distributor",
+        "suppliesToRetailer": "Retailer",
+        "distributesTo": "Retailer",
+        "distributesProduct": "Product",
+        "sellsProduct": "Product",
+        "soldAt": "RetailStore",
+        "storesBatch": "MaterialLot",
+        "storesProduct": "Product",
+        "transfersToDC": "DistributionCenter",
+        "includedInShipment": "Shipment",
+        "carriesBatch": "MaterialLot",
+        "shippedBy": "LogisticsProvider",
+        "handledBy": "LogisticsProvider",
+        "shippedFrom": "Facility",
+        "shippedTo": "Facility",
+        "shippedVia": "TransportVehicle",
+        "vehicleOwnedBy": "LogisticsProvider",
+        "inspectedAt": "QualityLab",
+        "certifiedBy": "CertificationBody",
+        "regulatedBy": "Regulator",
+        "contractedWith": "Organization"
+    },
+    "rel2superrel": {
+        "managesFarm": "ownsFacility",
+        "operatesMill": "ownsFacility",
+        "operatesWarehouse": "ownsFacility",
+        "operatesDistributionCenter": "ownsFacility",
+        "operatesPort": "ownsFacility",
+        "operatesPlant": "ownsFacility",
+        "ownsStore": "ownsFacility",
+        "ownsLab": "ownsFacility",
+        "handledBy": "shippedBy"
+    }
+}

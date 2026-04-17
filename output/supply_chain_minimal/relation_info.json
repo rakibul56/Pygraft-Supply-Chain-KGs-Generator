@@ -1,0 +1,74 @@
+{
+    "statistics": {
+        "num_relations": 5,
+        "prop_reflexive": 0.0,
+        "prop_irreflexive": 0.0,
+        "prop_functional": 0.8,
+        "prop_inversefunctional": 0.0,
+        "prop_symmetric": 0.0,
+        "prop_asymmetric": 0.0,
+        "prop_transitive": 0.0,
+        "prop_inverseof": 0.4,
+        "prop_subpropertyof": 0.0,
+        "prop_profiled_relations": 1.0,
+        "relation_specificity": 1.0
+    },
+    "relations": [
+        "ownsFacility",
+        "ownedBy",
+        "shippedBy",
+        "shippedFrom",
+        "shippedTo"
+    ],
+    "rel2patterns": {
+        "ownsFacility": [],
+        "ownedBy": [
+            "owl:Functional"
+        ],
+        "shippedBy": [
+            "owl:Functional"
+        ],
+        "shippedFrom": [
+            "owl:Functional"
+        ],
+        "shippedTo": [
+            "owl:Functional"
+        ]
+    },
+    "reflexive_relations": [],
+    "irreflexive_relations": [],
+    "symmetric_relations": [],
+    "asymmetric_relations": [],
+    "functional_relations": [
+        "ownedBy",
+        "shippedBy",
+        "shippedFrom",
+        "shippedTo"
+    ],
+    "inversefunctional_relations": [],
+    "transitive_relations": [],
+    "inverseof_relations": [
+        "ownedBy",
+        "ownsFacility"
+    ],
+    "subrelations": [],
+    "rel2inverse": {
+        "ownsFacility": "ownedBy",
+        "ownedBy": "ownsFacility"
+    },
+    "rel2dom": {
+        "ownsFacility": "Organization",
+        "ownedBy": "Facility",
+        "shippedBy": "Shipment",
+        "shippedFrom": "Shipment",
+        "shippedTo": "Shipment"
+    },
+    "rel2range": {
+        "ownsFacility": "Facility",
+        "ownedBy": "Organization",
+        "shippedBy": "Organization",
+        "shippedFrom": "Facility",
+        "shippedTo": "Facility"
+    },
+    "rel2superrel": {}
+}
